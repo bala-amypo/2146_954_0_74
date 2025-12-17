@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
-import com.example.demo.service.Studentervice;
+import com.example.demo.service.Studentservice;
 import com.example.demo.entity.StudentEntity;
 
 @RestControllerpublic class Studentcontroller {
