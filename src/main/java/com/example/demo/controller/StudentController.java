@@ -5,16 +5,16 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.Student;
+import com.example.demo.entity.StudentEntity;
 import com.example.demo.service.StudentService;
 
 @RestController
 @RequestMapping("/students") // ✅ base path
 public class StudentController {
 
-    private final StudentService studentService;
+    private final StudentService StudentService;
 
-    public StudentController(StudentService studentService) {
+    public StudentController(StudentService StudentService) {
         this.studentService = studentService;
     }
 
