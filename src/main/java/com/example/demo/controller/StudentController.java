@@ -14,32 +14,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.example.demo.service.Studentservice;
 import com.example.demo.entity.StudentEntity;
 
-@RestControllerpublic 
-class Studentcontroller {
+@RestController
+public class StudentController {
     @Autowired
     Studentservice Studentservice;
 
     @PostMapping("/add")
     public StudentEntity post(@RequestBody StudentEntity student) {
-        return studentservice.saveData(student);
+        return Studentservice.saveData(student);
     }
 
     @GetMapping("/get")
     public List<StudentEntity> getAllStudents() {
-        return studentservice.getAllStudentEntity();
+        return Studentservice.getAllStudentEntity();
     }
 
     @GetMapping("/get/{id}")
     public Optional<StudentEntity> get(@PathVariable int id) {
-        return studentservice.getStudentById(id);
+        return Studentservice.getStudentById(id);
     }
 
     @PutMapping("/update/{id}")
     public String update(@RequestBody StudentEntity student, @PathVariable int id) {
-        Optional<StudentEntity> existingStudent = studentservice.getStudentById(id);
+        Optional<StudentEntity> existingStudent = Studentservice.getStudentById(id);
         if (existingStudent.isPresent()) {
             student.setId(id);
-            studentservice.insertStudent(student);
+            Studentservice.insertStudent(student);
             return "Student updated successfully";
         } else {
             return "Student not found";
@@ -49,9 +49,9 @@ class Studentcontroller {
 
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable int id) {
-        Optional<StudentEntity> student = studentservice.getStudentById(id);
+        Optional<StudentEntity> student = Studentservice.getStudentById(id);
         if (student.isPresent()) {
-            studentservice.deleteStudentById(id);
+            Studentservice.deleteStudentById(id);
             return "Student deleted successfully";
         } else {
             return "Student not found";
