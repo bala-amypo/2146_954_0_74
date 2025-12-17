@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.example.demo.service.Studentservice;
 import com.example.demo.entity.StudentEntity;
 
-@RestControllerpublic class Studentcontroller {
-    @AutowiredStudentservice studentservice;
+@RestControllerpublic 
+class Studentcontroller {
+    @Autowired
+    Studentservice Studentservice;
 
     @PostMapping("/add")
     public StudentEntity post(@RequestBody StudentEntity student) {

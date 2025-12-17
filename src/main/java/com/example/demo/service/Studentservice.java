@@ -3,7 +3,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 import com.example.demo.entity.StudentEntity;
-@Servicepublic class Studentservice {
+@Servicepublic 
+class Studentservice {
     Map<Integer, StudentEntity> details = new HashMap<>();
 
     public StudentEntity saveData(StudentEntity student) {
