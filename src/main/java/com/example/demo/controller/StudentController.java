@@ -31,12 +31,12 @@ public class StudentController {
 
     @GetMapping("/get/{id}")
     public Optional<StudentEntity> get(@PathVariable int id) {
-        return Studentservice.getStudentById(id);
+        return Studentservice.getStudent(id);
     }
 
     @PutMapping("/update/{id}")
     public String update(@RequestBody StudentEntity student, @PathVariable int id) {
-        Optional<StudentEntity> existingStudent = Studentservice.getStudentById(id);
+        Optional<StudentEntity> existingStudent = Studentservice.getStudent(id);
         if (existingStudent.isPresent()) {
             student.setId(id);
             Studentservice.insertStudent(student);
@@ -49,9 +49,9 @@ public class StudentController {
 
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable int id) {
-        Optional<StudentEntity> student = Studentservice.getStudentById(id);
+        Optional<StudentEntity> student = Studentservice.getStudent(id);
         if (student.isPresent()) {
-            Studentservice.deleteStudentById(id);
+            Studentservice.deleteStudent(id);
             return "Student deleted successfully";
         } else {
             return "Student not found";
