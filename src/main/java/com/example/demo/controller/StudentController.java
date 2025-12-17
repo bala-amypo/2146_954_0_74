@@ -15,31 +15,31 @@ public class StudentController {
     private final StudentService StudentService;
 
     public StudentController(StudentService StudentService) {
-        this.studentService = studentService;
+        this.StudentService = StudentService;
     }
 
     // CREATE
     @PostMapping
     public Student postStudent(@RequestBody Student st) {
-        return studentService.insertStudent(st);
+        return StudentService.insertStudent(st);
     }
 
     // READ ALL
     @GetMapping
     public List<Student> getAll() {
-        return studentService.getAllStudents();
+        return StudentService.getAllStudents();
     }
 
     // READ ONE
     @GetMapping("/{id}")
     public Optional<Student> getById(@PathVariable Long id) {
-        return studentService.getOneStudent(id);
+        return StudentService.getOneStudent(id);
     }
 
     // UPDATE
     @PutMapping("/{id}")
     public String updateStudent(@PathVariable Long id, @RequestBody Student st) {
-        Optional<Student> studentOpt = studentService.getOneStudent(id);
+        Optional<Student> studentOpt = StudentService.getOneStudent(id);
 
         if (studentOpt.isPresent()) {
             Student student = studentOpt.get();
@@ -48,7 +48,7 @@ public class StudentController {
             student.setCgpa(st.getCgpa());
             student.setDob(st.getDob());
 
-            studentService.insertStudent(student);
+            StudentService.insertStudent(student);
             return "Updated Successfully ✅";
         }
         return "Student Not Found ❌";
@@ -57,10 +57,10 @@ public class StudentController {
     // DELETE
     @DeleteMapping("/{id}")
     public String deleteStudent(@PathVariable Long id) {
-        Optional<Student> student = studentService.getOneStudent(id);
+        Optional<Student> student = StudentService.getOneStudent(id);
 
         if (student.isPresent()) {
-            studentService.deleteStudent(id);
+            StudentService.deleteStudent(id);
             return "Deleted Successfully ✅";
         }
         return "Student Not Found ❌";
