@@ -2,67 +2,58 @@ package com.example.demo.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.entity.StudentEntity;
 import com.example.demo.service.StudentService;
 
 @RestController
-@RequestMapping("/students") // ✅ base path
+@RequestMapping("/students")
 public class StudentController {
 
-    private final StudentService StudentService;
+private final StudentService studentService;
 
-    public StudentController(StudentService StudentService) {
-        this.StudentService = StudentService;
-    }
+public StudentController(StudentService studentService) {
+this.studentService = studentService;
+}
 
-    // CREATE
-    @PostMapping
-    public Student postStudent(@RequestBody Student st) {
-        return StudentService.insertStudent(st);
-    }
+@PostMapping
+public StudentEntity postStudent(@RequestBody StudentEntity st) {
+return studentService.insertStudent(st);
+}
 
-    // READ ALL
-    @GetMapping
-    public List<Student> getAll() {
-        return StudentService.getAllStudents();
-    }
+@GetMapping
+public List<StudentEntity> getAll() {
+return studentService.getAllStudents();
+}
 
-    // READ ONE
-    @GetMapping("/{id}")
-    public Optional<Student> getById(@PathVariable Long id) {
-        return StudentService.getOneStudent(id);
-    }
+@GetMapping("/{id}")
+public Optional<StudentEntity> getById(@PathVariable Long id) {
+return studentService.getOneStudent(id);
+}
 
-    // UPDATE
-    @PutMapping("/{id}")
-    public String updateStudent(@PathVariable Long id, @RequestBody Student st) {
-        Optional<Student> studentOpt = StudentService.getOneStudent(id);
+@PutMapping("/{id}")
+public String updateStudent(@PathVariable Long id, @RequestBody StudentEntity st) {
+Optional<StudentEntity> opt = studentService.getOneStudent(id);
 
-        if (studentOpt.isPresent()) {
-            Student student = studentOpt.get();
-            student.setName(st.getName());
-            student.setEmail(st.getEmail());
-            student.setCgpa(st.getCgpa());
-            student.setDob(st.getDob());
+if (opt.isPresent()) {
+StudentEntity s = opt.get();
+s.setName(st.getName());
+s.setEmail(st.getEmail());
+s.setCgpa(st.getCgpa());
+s.setDob(st.getDob());
+studentService.insertStudent(s);
+return "Updated Successfully ✅";
+}
+return "Student Not Found ❌";
+}
 
-            StudentService.insertStudent(student);
-            return "Updated Successfully ✅";
-        }
-        return "Student Not Found ❌";
-    }
-
-    // DELETE
-    @DeleteMapping("/{id}")
-    public String deleteStudent(@PathVariable Long id) {
-        Optional<Student> student = StudentService.getOneStudent(id);
-
-        if (student.isPresent()) {
-            StudentService.deleteStudent(id);
-            return "Deleted Successfully ✅";
-        }
-        return "Student Not Found ❌";
-    }
+@DeleteMapping("/{id}")
+public String deleteStudent(@PathVariable Long id) {
+Optional<StudentEntity> st = studentService.getOneStudent(id);
+if (st.isPresent()) {
+studentService.deleteStudent(id);
+return "Deleted Successfully ✅";
+}
+return "Student Not Found ❌";
+}
 }

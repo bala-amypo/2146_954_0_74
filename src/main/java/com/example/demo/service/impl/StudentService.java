@@ -6,11 +6,11 @@ import com.example.demo.entity.StudentEntity;
 
 public interface StudentService {
 
-    Student insertStudent(Student st);
+StudentEntity insertStudent(StudentEntity st);
 
-    List<Student> getAllStudents();
+List<StudentEntity> getAllStudents();
 
-    Optional<Student> getOneStudent(Long id);
+Optional<StudentEntity> getOneStudent(Long id);
 
-    void deleteStudent(Long id);
+void deleteStudent(Long id);
 }
