@@ -1,21 +1,25 @@
 package com.example.demo.entity;
-import java.time.LocalDate;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-@Entity
 
-public class StudentEntity {
-@Id
+import jakarta.persistence.*;
+
+@Entity
+@Table(
+    name = "users",
+    uniqueConstraints = @UniqueConstraint(columnNames = "email")
+)
+public class UserEntity {
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String email;
 
-    private LocalDate dob;
-    private Float cgpa;
+    private String password;
 
+    private String role;
 
     public Long getId() {
         return id;
@@ -41,30 +45,19 @@ public class StudentEntity {
         this.email = email;
     }
 
-    public LocalDate getDob() {
-        return dob;
+    public String getPassword() {
+        return password;
     }
 
-    public void setDob(LocalDate dob) {
-        this.dob = dob;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public Float getCgpa() {
-        return cgpa;
+    public String getRole() {
+        return role;
     }
 
-    public void setCgpa(Float cgpa) {
-        this.cgpa = cgpa;
+    public void setRole(String role) {
+        this.role = role;
     }
-    public StudentEntity(Float cgpa, LocalDate dob, String email, Long id, String name) {
-        this.cgpa = cgpa;
-        this.dob = dob;
-        this.email = email;
-        this.id = id;
-        this.name = name;
-    }
-    
-    public StudentEntity() {
-    }
-
 }
