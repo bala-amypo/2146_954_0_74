@@ -5,7 +5,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.demo.service.UserService;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.entity.UserEntity;
-import com.example.demo.exception.ResourceNotFoundException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,7 +35,7 @@ public class UserServiceImpl implements UserService {
     public UserEntity findByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("User not found")
+                        new RuntimeException("User not found")
                 );
     }
 }

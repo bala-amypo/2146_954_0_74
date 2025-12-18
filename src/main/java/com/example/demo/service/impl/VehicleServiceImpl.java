@@ -6,7 +6,6 @@ import com.example.demo.repository.VehicleRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.entity.VehicleEntity;
 import com.example.demo.entity.UserEntity;
-import com.example.demo.exception.ResourceNotFoundException;
 import java.util.List;
 
 @Service
@@ -31,7 +30,7 @@ public class VehicleServiceImpl implements VehicleService {
 
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("User not found")
+                        new RuntimeException("User not found")
                 );
 
         vehicle.setUser(user);
@@ -47,7 +46,7 @@ public class VehicleServiceImpl implements VehicleService {
     public VehicleEntity findById(Long id) {
         return vehicleRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Vehicle not found")
+                        new RuntimeException("Vehicle not found")
                 );
     }
 }
