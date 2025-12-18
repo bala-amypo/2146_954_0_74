@@ -13,9 +13,5 @@ public interface StudentService {
 
     Optional<StudentEntity> getOneStudent(Long id);
 
-    id deleteStudent(Long id);
+    void deleteStudent(Long id);
 }
-
-
-
-
