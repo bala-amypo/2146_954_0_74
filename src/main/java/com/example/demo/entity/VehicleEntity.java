@@ -1,63 +1,42 @@
+vehicle.java
+
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(
-    uniqueConstraints = @UniqueConstraint(columnNames = "vehicleNumber")
-)
-public class VehicleEntity {
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = "vehicleNumber")
+})
+public class Vehicle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    private UserEntity user;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
+    @Column(nullable = false, unique = true)
     private String vehicleNumber;
 
     private Double capacityKg;
+    private Double fuelEfficiency; // km per liter
 
-    private Double fuelEfficiency;
+    // getters & setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getVehicleNumber() { return vehicleNumber; }
+    public void setVehicleNumber(String vehicleNumber) { this.vehicleNumber = vehicleNumber; }
 
-    public UserEntity getUser() {
-        return user;
-    }
+    public Double getCapacityKg() { return capacityKg; }
+    public void setCapacityKg(Double capacityKg) { this.capacityKg = capacityKg; }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
-
-    public String getVehicleNumber() {
-        return vehicleNumber;
-    }
-
-    public void setVehicleNumber(String vehicleNumber) {
-        this.vehicleNumber = vehicleNumber;
-    }
-
-    public Double getCapacityKg() {
-        return capacityKg;
-    }
-
-    public void setCapacityKg(Double capacityKg) {
-        this.capacityKg = capacityKg;
-    }
-
-    public Double getFuelEfficiency() {
-        return fuelEfficiency;
-    }
-
-    public void setFuelEfficiency(Double fuelEfficiency) {
-        this.fuelEfficiency = fuelEfficiency;
-    }
+    public Double getFuelEfficiency() { return fuelEfficiency; }
+    public void setFuelEfficiency(Double fuelEfficiency) { this.fuelEfficiency = fuelEfficiency; }
 }
