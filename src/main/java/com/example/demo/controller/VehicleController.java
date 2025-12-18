@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.*;
-import com.example.demo.entity.VehicleEntity;
+import com.example.demo.entity.Vehicle;
 import com.example.demo.service.VehicleService;
 
 @RestController
@@ -15,7 +15,8 @@ public class VehicleController {
     }
 
     @PostMapping("/{userId}")
-    public VehicleEntity addVehicle(@PathVariable Long userId, @RequestBody VehicleEntity vehicle) {
+    public Vehicle addVehicle(@PathVariable Long userId,
+                              @RequestBody Vehicle vehicle) {
         return vehicleService.addVehicle(userId, vehicle);
     }
 }
