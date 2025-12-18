@@ -1,41 +1,35 @@
-package com.example.demo.service.impl;
+UserServiceImpl.java
 
+package com.example.demo.service;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import com.example.demo.service.UserService;
+import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.entity.UserEntity;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepo;
+    private final BCryptPasswordEncoder encoder;
 
-    public UserServiceImpl(
-            UserRepository userRepository,
-            PasswordEncoder passwordEncoder
-    ) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    public UserServiceImpl(UserRepository userRepo,
+                           BCryptPasswordEncoder encoder) {
+        this.userRepo = userRepo;
+        this.encoder = encoder;
     }
 
     @Override
-    public UserEntity register(UserEntity user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public User registerUser(User user) {
 
+        // default role
         if (user.getRole() == null) {
             user.setRole("USER");
         }
 
-        return userRepository.save(user);
-    }
+        // encrypt password
+        user.setPassword(encoder.encode(user.getPassword()));
 
-    @Override
-    public UserEntity findByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new RuntimeException("User not found")
-                );
+        return userRepo.save(user);
     }
 }
