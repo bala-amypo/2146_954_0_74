@@ -1,9 +1,7 @@
-VehicleService.java
-
 package com.example.demo.service;
 
-import com.example.demo.entity.Vehicle;
+import com.example.demo.entity.VehicleEntity;
 
 public interface VehicleService {
-    Vehicle addVehicle(Long userId, Vehicle vehicle);
+    VehicleEntity addVehicle(Long userId, VehicleEntity vehicle);
 }

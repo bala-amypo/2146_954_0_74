@@ -1,9 +1,7 @@
-UserController.java
-
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.*;
-import com.example.demo.entity.User;
+import com.example.demo.entity.UserEntity;
 import com.example.demo.service.UserService;
 
 @RestController
@@ -17,7 +15,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
+    public UserEntity register(@RequestBody UserEntity user) {
         return userService.registerUser(user);
     }
 }

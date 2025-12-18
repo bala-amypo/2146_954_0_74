@@ -1,5 +1,3 @@
-vehicle.java
-
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
@@ -8,7 +6,7 @@ import jakarta.persistence.*;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = "vehicleNumber")
 })
-public class Vehicle {
+public class VehicleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,20 +14,20 @@ public class Vehicle {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UserEntity user;
 
     @Column(nullable = false, unique = true)
     private String vehicleNumber;
 
     private Double capacityKg;
-    private Double fuelEfficiency; // km per liter
+    private Double fuelEfficiency;
 
-    // getters & setters
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
+    public UserEntity getUser() { return user; }
+    public void setUser(UserEntity user) { this.user = user; }
 
     public String getVehicleNumber() { return vehicleNumber; }
     public void setVehicleNumber(String vehicleNumber) { this.vehicleNumber = vehicleNumber; }
