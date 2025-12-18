@@ -1,3 +1,4 @@
+
 package com.example.demo.service;
 
 import java.util.List;
@@ -6,11 +7,15 @@ import com.example.demo.entity.StudentEntity;
 
 public interface StudentService {
 
-StudentEntity insertStudent(StudentEntity st);
+    StudentEntity insertStudent(StudentEntity st);
 
-List<StudentEntity> getAllStudents();
+    List<StudentEntity> getAllStudents();
 
-Optional<StudentEntity> getOneStudent(Long id);
+    Optional<StudentEntity> getOneStudent(Long id);
 
-void deleteStudent(Long id);
+    id deleteStudent(Long id);
 }
+
+
+
+
