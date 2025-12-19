@@ -1,41 +1,24 @@
-package com.example.demo.entity;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import com.example.demo.entity.RouteOptimizationResultEntity;
+import com.example.demo.service.RouteOptimizationService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Entity
-@Table(name = "route_optimization_results")
-public class RouteOptimizationResultEntity {
+@RestController
+@RequestMapping("/optimize/result")
+public class RouteOptimizationResultController {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final RouteOptimizationService routeOptimizationService;
 
-    @ManyToOne
-    @JoinColumn(name = "shipment_id", nullable = false)
-    private ShipmentEntity shipment;
+    public RouteOptimizationResultController(RouteOptimizationService routeOptimizationService) {
+        this.routeOptimizationService = routeOptimizationService;
+    }
 
-    private Double optimizedDistanceKm;
-
-    private Double estimatedFuelUsageL;
-
-    private LocalDateTime generatedAt;
-
-    @PrePersist
-    protected void onCreate() { this.generatedAt = LocalDateTime.now(); }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public ShipmentEntity getShipment() { return shipment; }
-    public void setShipment(ShipmentEntity shipment) { this.shipment = shipment; }
-
-    public Double getOptimizedDistanceKm() { return optimizedDistanceKm; }
-    public void setOptimizedDistanceKm(Double optimizedDistanceKm) { this.optimizedDistanceKm = optimizedDistanceKm; }
-
-    public Double getEstimatedFuelUsageL() { return estimatedFuelUsageL; }
-    public void setEstimatedFuelUsageL(Double estimatedFuelUsageL) { this.estimatedFuelUsageL = estimatedFuelUsageL; }
-
-    public LocalDateTime getGeneratedAt() { return generatedAt; }
-    public void setGeneratedAt(LocalDateTime generatedAt) { this.generatedAt = generatedAt; }
+    // Get a previously generated optimization result
+    @GetMapping("/{resultId}")
+    public ResponseEntity<RouteOptimizationResultEntity> getResult(@PathVariable Long resultId) {
+        RouteOptimizationResultEntity result = routeOptimizationService.getResult(resultId);
+        return ResponseEntity.ok(result);
+    }
 }
