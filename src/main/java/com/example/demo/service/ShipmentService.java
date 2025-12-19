@@ -1,8 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.ShipmentEntity;
+import java.util.List;
 
 public interface ShipmentService {
-    ShipmentEntity createShipment(Long vehicleId, ShipmentEntity shipment);
-    ShipmentEntity getShipment(Long shipmentId);
+    ShipmentEntity saveShipment(ShipmentEntity shipment);
+    List<ShipmentEntity> getAllShipments();
+    ShipmentEntity getShipmentById(Long id);
+    void deleteShipment(Long id);
 }
