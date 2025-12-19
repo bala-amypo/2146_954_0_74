@@ -4,22 +4,21 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "route_optimization_results")
-public class RouteOptimizationResultEntity {
-
+public class RouteOptimizationResultEntity {  // ✅ Fixed class name
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String routeDetails;
+    private String routeName;
+    private Double distance;
 
-    private double totalDistance;
-
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getRouteDetails() { return routeDetails; }
-    public void setRouteDetails(String routeDetails) { this.routeDetails = routeDetails; }
+    public String getRouteName() { return routeName; }
+    public void setRouteName(String routeName) { this.routeName = routeName; }
 
-    public double getTotalDistance() { return totalDistance; }
-    public void setTotalDistance(double totalDistance) { this.totalDistance = totalDistance; }
+    public Double getDistance() { return distance; }
+    public void setDistance(Double distance) { this.distance = distance; }
 }

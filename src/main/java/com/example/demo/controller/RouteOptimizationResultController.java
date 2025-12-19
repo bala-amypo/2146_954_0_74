@@ -8,19 +8,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/route-results")
-public class RouteOptimizationResultController {
-
+@RequestMapping("/route-optimization")
+public class RouteOptimizationResultController {  // ✅ Fixed class name
     @Autowired
     private RouteOptimizationResultService routeOptimizationResultService;
 
-    @GetMapping
-    public List<RouteOptimizationResultEntity> getAllResults() {
-        return routeOptimizationResultService.getAllResults();
+    @PostMapping("/save")
+    public RouteOptimizationResultEntity saveResult(@RequestBody RouteOptimizationResultEntity entity) {
+        return routeOptimizationResultService.saveResult(entity);
     }
 
-    @PostMapping
-    public RouteOptimizationResultEntity saveResult(@RequestBody RouteOptimizationResultEntity result) {
-        return routeOptimizationResultService.saveResult(result);
+    @GetMapping("/all")
+    public List<RouteOptimizationResultEntity> getAllResults() {
+        return routeOptimizationResultService.getAllResults();
     }
 }
