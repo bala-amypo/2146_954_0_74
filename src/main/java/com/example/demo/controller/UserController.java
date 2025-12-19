@@ -4,40 +4,40 @@ import com.example.demo.entity.UserEntity;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
     private final JwtUtil jwtUtil;
-    private final AuthenticationManager authManager;
 
-    public UserController(UserService userService,
-                          JwtUtil jwtUtil,
-                          AuthenticationManager authManager) {
+    public UserController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
-        this.authManager = authManager;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserEntity userRequest) {
+        UserEntity user = userService.findByUsername(userRequest.getUsername());
+        if (user != null && user.getPassword().equals(userRequest.getPassword())) {
+            // JWT token fix: pass id, username, role
+            String token = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole());
+            return ResponseEntity.ok(token);
+        } else {
+            return ResponseEntity.status(401).body("Invalid credentials");
+        }
     }
 
     @PostMapping("/register")
     public ResponseEntity<UserEntity> register(@RequestBody UserEntity user) {
-        UserEntity savedUser = userService.register(user);
-        savedUser.setPassword(null);
+        // Use username instead of email if email not present
+        if (user.getUsername() == null || user.getPassword() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        user.setRole("USER");
+        UserEntity savedUser = userService.saveUser(user);
         return ResponseEntity.ok(savedUser);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserEntity user) {
-        authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())
-        );
-        UserEntity existingUser = userService.findByEmail(user.getEmail());
-        String token = jwtUtil.generateToken(existingUser);
-        return ResponseEntity.ok(new java.util.HashMap<>() {{ put("token", token); }});
     }
 }
