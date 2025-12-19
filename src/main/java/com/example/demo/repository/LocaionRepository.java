@@ -1,4 +1,12 @@
-import com.example.demo.entity.LocationEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+package com.example.demo.service.impl;
 
-public interface LocationRepository extends JpaRepository<LocationEntity, Long> {}
+import com.example.demo.repository.LocationRepository;
+import org.springframework.stereotype.Service;
+
+@Service
+public class LocationServiceImpl {
+    private final LocationRepository locationRepository;
+    public LocationServiceImpl(LocationRepository locationRepository) {
+        this.locationRepository = locationRepository;
+    }
+}
