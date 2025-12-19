@@ -2,12 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.VehicleEntity;
 import com.example.demo.service.VehicleService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/vehicles")
+@RequestMapping("/api/vehicles")
 public class VehicleController {
 
     private final VehicleService vehicleService;
@@ -16,41 +16,41 @@ public class VehicleController {
         this.vehicleService = vehicleService;
     }
 
-    // Create a new vehicle
     @PostMapping
-    public VehicleEntity addVehicle(@RequestBody VehicleEntity vehicle) {
-        return vehicleService.saveVehicle(vehicle);
+    public ResponseEntity<VehicleEntity> addVehicle(@RequestBody VehicleEntity vehicle) {
+        VehicleEntity savedVehicle = vehicleService.saveVehicle(vehicle);
+        return ResponseEntity.ok(savedVehicle);
     }
 
-    // Get all vehicles
     @GetMapping
-    public List<VehicleEntity> getAllVehicles() {
-        return vehicleService.getAllVehicles();
+    public ResponseEntity<List<VehicleEntity>> getAllVehicles() {
+        List<VehicleEntity> vehicles = vehicleService.getAllVehicles();
+        return ResponseEntity.ok(vehicles);
     }
 
-    // Get a vehicle by ID
     @GetMapping("/{id}")
-    public VehicleEntity getVehicleById(@PathVariable Long id) {
-        return vehicleService.getVehicleById(id);
+    public ResponseEntity<VehicleEntity> getVehicleById(@PathVariable Long id) {
+        VehicleEntity vehicle = vehicleService.getVehicleById(id);
+        return vehicle != null ? ResponseEntity.ok(vehicle) : ResponseEntity.notFound().build();
     }
 
-    // Update a vehicle
     @PutMapping("/{id}")
-    public VehicleEntity updateVehicle(@PathVariable Long id, @RequestBody VehicleEntity updatedVehicle) {
-        VehicleEntity existingVehicle = vehicleService.getVehicleById(id);
-        if (existingVehicle != null) {
-            existingVehicle.setName(updatedVehicle.getName());
-            existingVehicle.setCapacity(updatedVehicle.getCapacity());
-            existingVehicle.setUserId(updatedVehicle.getUserId());
-            return vehicleService.saveVehicle(existingVehicle);
-        }
-        return null; // or throw an exception
+    public ResponseEntity<VehicleEntity> updateVehicle(@PathVariable Long id, @RequestBody VehicleEntity updatedVehicle) {
+        VehicleEntity vehicle = vehicleService.getVehicleById(id);
+        if (vehicle == null) return ResponseEntity.notFound().build();
+
+        // Update fields using correct getters/setters
+        vehicle.setName(updatedVehicle.getName());
+        vehicle.setCapacityKg(updatedVehicle.getCapacityKg()); // fixed
+        vehicle.setUser(updatedVehicle.getUser()); // fixed
+
+        VehicleEntity savedVehicle = vehicleService.saveVehicle(vehicle);
+        return ResponseEntity.ok(savedVehicle);
     }
 
-    // Delete a vehicle
     @DeleteMapping("/{id}")
-    public String deleteVehicle(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteVehicle(@PathVariable Long id) {
         vehicleService.deleteVehicle(id);
-        return "Vehicle with ID " + id + " deleted successfully.";
+        return ResponseEntity.noContent().build();
     }
 }
