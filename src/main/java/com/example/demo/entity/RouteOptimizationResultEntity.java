@@ -1,24 +1,25 @@
-package com.example.demo.controller;
+package com.example.demo.entity;
 
-import com.example.demo.entity.RouteOptimizationResultEntity;
-import com.example.demo.service.RouteOptimizationService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import jakarta.persistence.*;
 
-@RestController
-@RequestMapping("/optimize/result")
-public class RouteOptimizationResultController {
+@Entity
+@Table(name = "route_optimization_results")
+public class RouteOptimizationResultEntity {
 
-    private final RouteOptimizationService routeOptimizationService;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public RouteOptimizationResultController(RouteOptimizationService routeOptimizationService) {
-        this.routeOptimizationService = routeOptimizationService;
-    }
+    private String routeDetails;
 
-    // Get a previously generated optimization result
-    @GetMapping("/{resultId}")
-    public ResponseEntity<RouteOptimizationResultEntity> getResult(@PathVariable Long resultId) {
-        RouteOptimizationResultEntity result = routeOptimizationService.getResult(resultId);
-        return ResponseEntity.ok(result);
-    }
+    private double totalDistance;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getRouteDetails() { return routeDetails; }
+    public void setRouteDetails(String routeDetails) { this.routeDetails = routeDetails; }
+
+    public double getTotalDistance() { return totalDistance; }
+    public void setTotalDistance(double totalDistance) { this.totalDistance = totalDistance; }
 }

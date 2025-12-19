@@ -2,7 +2,9 @@ package com.example.demo.service;
 
 import com.example.demo.entity.RouteOptimizationResultEntity;
 
-public interface RouteOptimizationService {
-    RouteOptimizationResultEntity optimizeRoute(Long shipmentId);
-    RouteOptimizationResultEntity getResult(Long resultId);
+import java.util.List;
+
+public interface RouteOptimizationResultService {
+    RouteOptimizationResultEntity saveResult(RouteOptimizationResultEntity result);
+    List<RouteOptimizationResultEntity> getAllResults();
 }
