@@ -4,7 +4,9 @@ import com.example.demo.entity.VehicleEntity;
 import java.util.List;
 
 public interface VehicleService {
-    VehicleEntity addVehicle(Long userId, VehicleEntity vehicle);
-    List<VehicleEntity> getVehiclesByUser(Long userId);
-    VehicleEntity findById(Long id);
+    VehicleEntity saveVehicle(VehicleEntity vehicle);
+    List<VehicleEntity> getAllVehicles();
+    VehicleEntity getVehicleById(Long id);
+    void deleteVehicle(Long id);
+    List<VehicleEntity> getVehiclesByUserId(Long userId);
 }

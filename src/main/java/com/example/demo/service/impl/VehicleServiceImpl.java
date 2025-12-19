@@ -1,9 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.UserEntity;
 import com.example.demo.entity.VehicleEntity;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.VehicleRepository;
 import com.example.demo.service.VehicleService;
 import org.springframework.stereotype.Service;
@@ -13,33 +10,33 @@ import java.util.List;
 public class VehicleServiceImpl implements VehicleService {
 
     private final VehicleRepository vehicleRepository;
-    private final UserRepository userRepository;
 
-    public VehicleServiceImpl(VehicleRepository vehicleRepository,
-                              UserRepository userRepository) {
+    public VehicleServiceImpl(VehicleRepository vehicleRepository) {
         this.vehicleRepository = vehicleRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
-    public VehicleEntity addVehicle(Long userId, VehicleEntity vehicle) {
-        if (vehicle.getCapacityKg() == null || vehicle.getCapacityKg() <= 0) {
-            throw new IllegalArgumentException("Capacity must be positive");
-        }
-        UserEntity user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        vehicle.setUser(user);
+    public VehicleEntity saveVehicle(VehicleEntity vehicle) {
         return vehicleRepository.save(vehicle);
     }
 
     @Override
-    public List<VehicleEntity> getVehiclesByUser(Long userId) {
-        return vehicleRepository.findByUserId(userId);
+    public List<VehicleEntity> getAllVehicles() {
+        return vehicleRepository.findAll();
     }
 
     @Override
-    public VehicleEntity findById(Long id) {
-        return vehicleRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found"));
+    public VehicleEntity getVehicleById(Long id) {
+        return vehicleRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void deleteVehicle(Long id) {
+        vehicleRepository.deleteById(id);
+    }
+
+    @Override
+    public List<VehicleEntity> getVehiclesByUserId(Long userId) {
+        return vehicleRepository.findByUserId(userId);
     }
 }

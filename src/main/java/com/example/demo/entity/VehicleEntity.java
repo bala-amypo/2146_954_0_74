@@ -11,25 +11,42 @@ public class VehicleEntity {
     private Long id;
 
     private String name;
-    private int capacity;
 
-    @Column(name = "user_id")
-    private Long userId;
+    private double capacityKg;
 
-    public VehicleEntity() {}
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
-    public VehicleEntity(String name, int capacity, Long userId) {
-        this.name = name;
-        this.capacity = capacity;
-        this.userId = userId;
+    public Long getId() {
+        return id;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public int getCapacity() { return capacity; }
-    public void setCapacity(int capacity) { this.capacity = capacity; }
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getCapacityKg() {
+        return capacityKg;
+    }
+
+    public void setCapacityKg(double capacityKg) {
+        this.capacityKg = capacityKg;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
 }
