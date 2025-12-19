@@ -2,8 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.VehicleEntity;
 import com.example.demo.service.VehicleService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -16,21 +16,41 @@ public class VehicleController {
         this.vehicleService = vehicleService;
     }
 
-    @PostMapping("/{userId}")
-    public ResponseEntity<VehicleEntity> addVehicle(@PathVariable Long userId, @RequestBody VehicleEntity vehicle) {
-        VehicleEntity savedVehicle = vehicleService.addVehicle(userId, vehicle);
-        return ResponseEntity.ok(savedVehicle);
+    // Create a new vehicle
+    @PostMapping
+    public VehicleEntity addVehicle(@RequestBody VehicleEntity vehicle) {
+        return vehicleService.saveVehicle(vehicle);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<VehicleEntity>> getVehiclesByUser(@PathVariable Long userId) {
-        List<VehicleEntity> vehicles = vehicleService.getVehiclesByUser(userId);
-        return ResponseEntity.ok(vehicles);
+    // Get all vehicles
+    @GetMapping
+    public List<VehicleEntity> getAllVehicles() {
+        return vehicleService.getAllVehicles();
     }
 
+    // Get a vehicle by ID
     @GetMapping("/{id}")
-    public ResponseEntity<VehicleEntity> getVehicle(@PathVariable Long id) {
-        VehicleEntity vehicle = vehicleService.findById(id);
-        return ResponseEntity.ok(vehicle);
+    public VehicleEntity getVehicleById(@PathVariable Long id) {
+        return vehicleService.getVehicleById(id);
+    }
+
+    // Update a vehicle
+    @PutMapping("/{id}")
+    public VehicleEntity updateVehicle(@PathVariable Long id, @RequestBody VehicleEntity updatedVehicle) {
+        VehicleEntity existingVehicle = vehicleService.getVehicleById(id);
+        if (existingVehicle != null) {
+            existingVehicle.setName(updatedVehicle.getName());
+            existingVehicle.setCapacity(updatedVehicle.getCapacity());
+            existingVehicle.setUserId(updatedVehicle.getUserId());
+            return vehicleService.saveVehicle(existingVehicle);
+        }
+        return null; // or throw an exception
+    }
+
+    // Delete a vehicle
+    @DeleteMapping("/{id}")
+    public String deleteVehicle(@PathVariable Long id) {
+        vehicleService.deleteVehicle(id);
+        return "Vehicle with ID " + id + " deleted successfully.";
     }
 }
