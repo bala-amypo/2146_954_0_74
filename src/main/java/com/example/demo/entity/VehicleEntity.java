@@ -3,38 +3,33 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "vehicles", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "vehicleNumber")
-})
+@Table(name = "vehicles")
 public class VehicleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    private String name;
+    private int capacity;
 
-    @Column(nullable = false, unique = true)
-    private String vehicleNumber;
+    @Column(name = "user_id")
+    private Long userId;
 
-    private Double capacityKg;
+    public VehicleEntity() {}
 
-    private Double fuelEfficiency;
+    public VehicleEntity(String name, int capacity, Long userId) {
+        this.name = name;
+        this.capacity = capacity;
+        this.userId = userId;
+    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
-    public UserEntity getUser() { return user; }
-    public void setUser(UserEntity user) { this.user = user; }
-
-    public String getVehicleNumber() { return vehicleNumber; }
-    public void setVehicleNumber(String vehicleNumber) { this.vehicleNumber = vehicleNumber; }
-
-    public Double getCapacityKg() { return capacityKg; }
-    public void setCapacityKg(Double capacityKg) { this.capacityKg = capacityKg; }
-
-    public Double getFuelEfficiency() { return fuelEfficiency; }
-    public void setFuelEfficiency(Double fuelEfficiency) { this.fuelEfficiency = fuelEfficiency; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public int getCapacity() { return capacity; }
+    public void setCapacity(int capacity) { this.capacity = capacity; }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
 }
