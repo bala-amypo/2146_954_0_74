@@ -1,32 +1,36 @@
-package com.example.demo.service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import com.example.demo.entity.User;
+package com.example.demo.service.impl;
+
+import com.example.demo.entity.UserEntity;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepo;
-    private final BCryptPasswordEncoder encoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepo,
-                           BCryptPasswordEncoder encoder) {
-        this.userRepo = userRepo;
-        this.encoder = encoder;
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public User registerUser(User user) {
-
-        // default role
-        if (user.getRole() == null) {
+    public UserEntity register(UserEntity user) {
+        if (user.getRole() == null || user.getRole().isEmpty()) {
             user.setRole("USER");
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
 
-        // encrypt password
-        user.setPassword(encoder.encode(user.getPassword()));
-
-        return userRepo.save(user);
+    @Override
+    public UserEntity findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 }
