@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "email")
 })
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +19,8 @@ public class User {
 
     private String password;
 
-    private String role; // USER / ADMIN
+    private String role;
 
-    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
